@@ -1,0 +1,169 @@
+﻿@model IList<ProductPersonalizationModel>
+    @Html.ValidationSummary(false)
+
+
+    <style type="text/css">
+        .canvas-container {
+            margin: 0 auto;
+        }
+    </style>
+
+    @foreach (var item in Model)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Add("@item.DefaultValue", "@item.FontSize", "@item.X", "@item.Y", "@item.Font", "@item.Color", "@item.Id");
+                console.log('Partial page ready');
+            });
+            //Add1();
+            //console.log("@item.DefaultValue", "@item.FontSize", "@item.X", "@item.Y", "@item.Font", "@item.Color", "@item.Id");
+            //Add2('"@item.DefaultValue"', "@item.FontSize", "@item.X", "@item.Y", '"@item.Font"', '"@item.Color"', "@item.Id");
+            //Add2('testvalue', 16, 100, 300, 'Verdana', 'Red', 1011);
+        </script>
+    }
+
+
+    <div style="float:left;">
+        <div class="wrapper" style="float: left;">
+            <canvas id="personalizationLayer" width="350" height="500"></canvas>
+        </div>
+    </div>
+
+    @for (int cnt = 0; cnt < Model.Count; cnt++)
+    {
+        @Html.HiddenFor(model => model[cnt].Id)
+
+        if (cnt == 0)
+        {
+            <div style="float:left;">
+                <table class="adminContent">
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].Id):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].Id, new { id = "Id" })
+                            @Html.ValidationMessageFor(model => model[cnt].Id)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].DesignId):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].DesignId, new { id = "DesignId" })
+                            @Html.ValidationMessageFor(model => model[cnt].DesignId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].X):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].X, new { id = "X" })
+                            @Html.ValidationMessageFor(model => model[cnt].X)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].Y):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].Y, new { id = "Y" })
+                            @Html.ValidationMessageFor(model => model[cnt].Y)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].FontSize):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].FontSize, new { id = "FontSize" })
+                            @Html.ValidationMessageFor(model => model[cnt].FontSize)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].Font):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].Font, new { id = "Font" })
+                            @Html.ValidationMessageFor(model => model[cnt].Font)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].Color):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].Color, new { id = "Color" })
+                            @Html.ValidationMessageFor(model => model[cnt].Color)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].BgColor):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].BgColor, new { id = "BgColor" })
+                            @Html.ValidationMessageFor(model => model[cnt].BgColor)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].DefaultValue):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].DefaultValue, new { id = "DefaultValue" })
+                            @Html.ValidationMessageFor(model => model[cnt].DefaultValue)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].Align):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].Align, new { id = "Align" })
+                            @Html.ValidationMessageFor(model => model[cnt].Align)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].Type):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].Type, new { id = "Type" })
+                            @Html.ValidationMessageFor(model => model[cnt].Type)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].Width):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].Width, new { id = "Width" })
+                            @Html.ValidationMessageFor(model => model[cnt].Width)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].Height):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].Height, new { id = "Height" })
+                            @Html.ValidationMessageFor(model => model[cnt].Height)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">
+                            @Html.NopLabelFor(model => model[cnt].TextDecoration):
+                        </td>
+                        <td class="adminData">
+                            @Html.TextBoxFor(x => x[0].TextDecoration, new { id = "TextDecoration" })
+                            @Html.ValidationMessageFor(model => model[cnt].TextDecoration)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+    }

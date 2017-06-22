@@ -1,0 +1,50 @@
+﻿<html>
+<head>
+    <title>Translate API Example</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="fabric.min.js"></script>
+    <style type="text/css">
+        .canvas-wrapper {
+            position: relative;
+        }
+        canvas {
+            border: 1px solid #000;
+        }
+        .itext {
+            width: 300px;
+            background: transparent;
+            position: absolute;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-wrapper">
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+    <script type="text/javascript">
+        var SINGLE_LINE = false;
+
+        var canvas = new fabric.Canvas('canvas');
+
+
+        var text = 'திருமணத்தாம்பூலம் பூலம்';
+        var itext = new fabric.IText(text, {
+            left: 0,
+            top: 0,
+            fontSize: 20,
+            fill: '#000'
+        });
+        //canvas.add(itext);
+        //canvas.centerObjectH(itext);
+
+        //itext.selectAll();
+        //itext.enterEditing();
+
+        var itext2 = fabric.IText.fromObject(itext.toObject());
+        canvas.centerObjectH(itext2);
+        canvas.add(itext2);
+        canvas.renderAll();
+    </script>
+</body>
+</html>

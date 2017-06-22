@@ -1,0 +1,280 @@
+﻿<html>
+<head>
+    <title>Translate API Example</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="src/fabric.min.js"></script>
+    <style type="text/css">
+        .canvas-wrappter
+        {
+            position: relative;
+        }
+        canvas
+        {
+            border: 1px solid #000;
+        }
+        .itext
+        {
+            width: 300px;
+            background: transparent;
+            position: absolute;
+            z-index: 2;
+        }
+    </style>
+    <!--google translate-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+        // Load the Google Transliterate API
+        google.load("elements", "1", {
+            packages: "transliteration"
+        });
+
+        function onLoad(ctrlId) {
+            var options = {
+                sourceLanguage:
+            google.elements.transliteration.LanguageCode.ENGLISH,
+                destinationLanguage:
+            [google.elements.transliteration.LanguageCode.TAMIL],
+                shortcutKey: 'ctrl+g',
+                transliterationEnabled: true
+            };
+
+            // Create an instance on TransliterationControl with the required
+            // options.
+            var control = new google.elements.transliteration.TransliterationControl(options);
+
+            // Enable transliteration in the textbox with id
+            // 'transliterateTextarea'.
+            control.makeTransliteratable(["'" + ctrlId + "'"]);
+            }
+
+
+        function EnableTransalation(ctrlId) {
+            //Script Starts here
+            console.log("In Enable Translation. " + ctrlId);
+            // Load the Google Transliterate API
+            google.load('elements', '1', {
+                packages: 'transliteration'
+            });
+
+            console.log("Before call back " + ctrlId);
+            google.setOnLoadCallback(onLoad, ctrlId);
+            console.log("After load call back" + ctrlId);
+            
+            console.log("End of Enable Translation. ");
+            }
+            
+
+            //End here
+
+        var transliterationControl;
+//        function onLoad() {
+//            var options = {
+//                sourceLanguage: 'en',
+//                destinationLanguage: ['ar', 'hi', 'kn', 'ml', 'ta', 'te'],
+//                transliterationEnabled: true,
+//                shortcutKey: 'ctrl+g'
+//            };
+//            // Create an instance on TransliterationControl with the required
+//            // options.
+//            transliterationControl =
+//          new google.elements.transliteration.TransliterationControl(options);
+
+//            // Enable transliteration in the textfields with the given ids.
+//            //var ids = ["transl1", "transl2"];
+//            var ids = ["text2"];
+//            transliterationControl.makeTransliteratable(ids);
+
+//            // Add the STATE_CHANGED event handler to correcly maintain the state
+//            // of the checkbox.
+//            transliterationControl.addEventListener(
+//            google.elements.transliteration.TransliterationControl.EventType.STATE_CHANGED,
+//            transliterateStateChangeHandler);
+
+//            // Add the SERVER_UNREACHABLE event handler to display an error message
+//            // if unable to reach the server.
+//            transliterationControl.addEventListener(
+//            google.elements.transliteration.TransliterationControl.EventType.SERVER_UNREACHABLE,
+//            serverUnreachableHandler);
+
+//            // Add the SERVER_REACHABLE event handler to remove the error message
+//            // once the server becomes reachable.
+//            transliterationControl.addEventListener(
+//            google.elements.transliteration.TransliterationControl.EventType.SERVER_REACHABLE,
+//            serverReachableHandler);
+
+//            // Set the checkbox to the correct state.
+//            document.getElementById('checkboxId').checked =
+//          transliterationControl.isTransliterationEnabled();
+
+//            // Populate the language dropdown
+//            var destinationLanguage =
+//          transliterationControl.getLanguagePair().destinationLanguage;
+//            var languageSelect = document.getElementById('languageDropDown');
+//            var supportedDestinationLanguages =
+//          google.elements.transliteration.getDestinationLanguages(
+//            google.elements.transliteration.LanguageCode.ENGLISH);
+//            for (var lang in supportedDestinationLanguages) {
+//                var opt = document.createElement('option');
+//                opt.text = lang;
+//                opt.value = supportedDestinationLanguages[lang];
+//                if (destinationLanguage == opt.value) {
+//                    opt.selected = true;
+//                }
+//                try {
+//                    languageSelect.add(opt, null);
+//                } catch (ex) {
+//                    languageSelect.add(opt);
+//                }
+//            }
+//        }
+
+        // Handler for STATE_CHANGED event which makes sure checkbox status
+        // reflects the transliteration enabled or disabled status.
+        function transliterateStateChangeHandler(e) {
+            document.getElementById('checkboxId').checked = e.transliterationEnabled;
+        }
+
+        // Handler for checkbox's click event.  Calls toggleTransliteration to toggle
+        // the transliteration state.
+        function checkboxClickHandler() {
+            transliterationControl.toggleTransliteration();
+        }
+
+        // Handler for dropdown option change event.  Calls setLanguagePair to
+        // set the new language.
+        function languageChangeHandler() {
+            var dropdown = document.getElementById('languageDropDown');
+            transliterationControl.setLanguagePair(
+            google.elements.transliteration.LanguageCode.ENGLISH,
+            dropdown.options[dropdown.selectedIndex].value);
+        }
+
+        // SERVER_UNREACHABLE event handler which displays the error message.
+        function serverUnreachableHandler(e) {
+            document.getElementById("errorDiv").innerHTML =
+            "Transliteration Server unreachable";
+        }
+
+        // SERVER_UNREACHABLE event handler which clears the error message.
+        function serverReachableHandler(e) {
+            document.getElementById("errorDiv").innerHTML = "";
+        }
+        google.setOnLoadCallback(onLoad);
+
+    </script>
+    <!--google translate till here-->
+</head>
+<body>
+    <div class="canvas-wrapper" style="float: left;">
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+    <div id='translControl' style="float: left;">
+        <input type="checkbox" id="checkboxId" onclick="javascript:checkboxClickHandler()"></input>
+        Type in
+        <select id="languageDropDown" onchange="javascript:languageChangeHandler()">
+        </select>
+        <input id="text2" type="text" class="itext" dir="ltr" />
+    </div>
+    <script type="text/javascript">
+        var SINGLE_LINE = false;
+
+        var canvas = new fabric.Canvas('canvas');
+
+        // custom input area
+        if (SINGLE_LINE) {
+            var $itext = $('<input/>').attr('type', 'text').addClass('itext');
+        }
+        else {
+            var $itext = $('<textarea/>').attr('id', 'text1').attr('dir', 'ltr').addClass('itext');
+        }
+
+        var text = 'enter multi-byte text here 日本語 திருமணதாம்பூலம்';
+        var itext = new fabric.IText(text, {
+            left: 100,
+            top: 100,
+            fontSize: 20,
+            fill: '#000'
+        })
+        .on('editing:entered', function (e) {
+            EnableTransalation("text1");
+            var obj = this;
+            if (SINGLE_LINE) {
+                var keyDownCode = 0;
+            }
+
+            canvas.remove(obj);
+
+            // show input area
+            $itext.css({
+                left: obj.left,
+                top: obj.top,
+                'line-height': obj.lineHeight,
+                'font-family': obj.fontFamily,
+                'font-size': Math.floor(obj.fontSize * Math.min(obj.scaleX, obj.scaleY)) + 'px',
+                'font-weight': obj.fontWeight,
+                'font-style': obj.fontStyle,
+                color: obj.fill
+            })
+            .val(obj.text)
+            .appendTo($(canvas.wrapperEl).closest('.canvas-wrapper'));
+
+            // text submit event
+            if (SINGLE_LINE) {
+                // submit text by ENTER key
+                $itext.on('keydown', function (e) {
+                    // save the key code of a pressed key while kanji conversion (it differs from the code for keyup)
+                    keyDownCode = e.which;
+                })
+                .on('keyup', function (e) {
+                    if (e.keyCode == 13 && e.which == keyDownCode) {
+                        obj.exitEditing();
+                        obj.set('text', $(this).val());
+                        $(this).remove();
+                        canvas.add(obj);
+                        canvas.renderAll();
+                    }
+                });
+            }
+            else {
+                // submit text by focusout
+                $itext.on('focusout', function (e) {
+                    obj.exitEditing();
+                    obj.set('text', $(this).val());
+                    $(this).remove();
+                    canvas.add(obj);
+                    canvas.renderAll();
+                });
+            }
+
+            // focus on text
+            setTimeout(function () {
+                $itext.select();
+            }, 1);
+        });
+        canvas.add(itext);
+        canvas.setActiveObject(itext);
+        //itext.selectAll();
+        //itext.enterEditing();
+
+        $('.itext').keypress(function () {
+            console.log('coming here');
+            //Call the Google API
+            $.ajax({
+                type: "GET",
+                url: "https://ajax.googleapis.com/ajax/services/language/translate",
+                dataType: 'jsonp',
+                cache: false,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: "v=1.0&q=" + $('.itext').val() + "&langpair=en|es",
+                success: function (iData) {
+                    //update the value
+                    $('.itext').val(iData["responseData"]["translatedText"]);
+                },
+                error: function (xhr, ajaxOptions, thrownError) { }
+            });
+        });
+
+    </script>
+</body>
+</html>

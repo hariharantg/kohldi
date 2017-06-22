@@ -1,0 +1,139 @@
+﻿<html>
+<head>
+    <title>Test - Fabric js</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="fabric.min.js"></script>
+    <!--<script type="text/javascript" src="customfabric.min.js"></script>-->
+    <style type="text/css">
+        .canvas-wrapper
+        {
+            position: relative;
+        }
+        canvas
+        {
+            border: 1px solid Yellow;
+        }
+        .itext
+        {
+            width: 250px;
+            background: transparent;
+            position: absolute;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <center>
+            <div style="float:left;" align="right">
+                <div><span>&nbsp;</span></div>
+                <div><span>Left:</span></div>
+                <div><span>Top:</span></div>
+                <div><span>Width:</span></div>
+                <div><span>Height:</span></div>
+                <div><span>Default:</span></div>
+            </div>
+            <div style="float: left;">
+                <div>
+                    <center>
+                        <input type="button" value="Add" onclick="Add();" />
+                        <input type="button" value="Add2" onclick="Add2(testvalue, '16', '100', '300', 'Verdana', 'Red', 1011);" />
+                        <input type="button" value="C" onclick="Center();" />
+                    </center>
+                </div>
+                <div>
+                    <input type="text" value="0" id="left" /></div>
+                <div>
+                    <input type="text" value="0" id="top" /></div>
+                <div>
+                    <input type="text" value="" id="width" /></div>
+                <div>
+                    <input type="text" value="" id="height" /></div>
+                <div>
+                    <input type="text" value="Default" id="default" /></div>
+            </div>
+            <div class="canvas-wrapper" style="float: left;">
+                <canvas id="c" width="350" height="500"></canvas>
+            </div>
+            <script type="text/javascript">
+                var canvas = new fabric.Canvas('c', { backgroundColor: "Yellow" });
+
+                $(document).ready(function () {
+
+                });
+
+
+                canvas.on('touch:drag', function () {
+                    if (canvas.getActiveObject() != null) {
+                        //console.log('coming here');
+                        $("#left").val(Math.round(canvas.getActiveObject().left));
+                        $("#top").val(Math.round(canvas.getActiveObject().top));
+                        $("#width").val(Math.round(canvas.getActiveObject().getWidth()));
+                        $("#height").val(Math.round(canvas.getActiveObject().getHeight()));
+                    }
+                });
+
+                canvas.on('object:modified', function (options) {
+                    //options.target.set({ opacity: 1 });
+                    $("#left").val(Math.round(canvas.getActiveObject().left));
+                    $("#top").val(Math.round(canvas.getActiveObject().top));
+                    $("#width").val(Math.round(options.target.getWidth()));
+                    $("#height").val(Math.round(options.target.getHeight()));
+                });
+
+                function Add() {
+                    var itext = new fabric.IText($("#default").val(), {
+                        fontSize: 20,
+                        left: 0,
+                        top: 0,
+                        fontFamily: 'Arial',
+                        fill: 'Red',
+                        fontWeight: 'bold',
+                        id: 'test1',
+                        //lockUniScaling: true,
+                        scaleToWidth: (canvas.width - 10)
+                    });
+                    canvas.add(itext);
+                    canvas.setActiveObject(itext);
+                    canvas.renderAll();
+                }
+
+                function Add2(defval, size, x, y, family, color, identifier) {
+                    //console.log('coming inside add');
+                    //console.log(canvas);
+                    var itext = new fabric.IText(defval, {
+                        fontSize: parseInt(size),
+                        left: parseInt(x),
+                        top: parseInt(y),
+                        fontFamily: family,
+                        fill: color,
+                        //fontWeight: 'bold',
+                        //id: identifier,
+                        //lockUniScaling: true,
+                        scaleToWidth: (canvas.width - 10)
+                    });
+                    canvas.add(itext);
+                    canvas.setActiveObject(itext);
+                    canvas.getActiveObject().setCoords();
+                    canvas.renderAll();
+                    console.log('add2');
+                    //console.log('added object');
+                    //console.log(canvas);
+                }
+
+
+                function Center() {
+                    canvas.centerObjectH(canvas.getActiveObject());
+                    canvas.getActiveObject().setCoords();
+                    canvas.renderAll();
+                }
+
+                
+
+                
+            </script>
+            <input id="hdnText" type="hidden" />
+        </center>
+    </div>
+</body>
+</html>

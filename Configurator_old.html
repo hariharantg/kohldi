@@ -1,0 +1,206 @@
+<html>
+<head>
+    <title>Test - Fabric js</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="fabric.min.js"></script>
+
+    <style type="text/css">
+        .canvas-wrapper {
+            position: relative;
+        }
+
+        canvas {
+            border: 1px solid Yellow;
+        }
+
+        .itext {
+            width: 250px;
+            background: white;
+            position: absolute;
+            z-index: 2;
+        }
+    </style>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" src="src/spectrum.js"></script>
+    <link rel="stylesheet" href="css/spectrum.css" />
+</head>
+<body>
+    <div class="canvas-wrapper" style="float:left;">
+        <canvas id="c" width="400" height="500"></canvas>
+    </div>
+    <div style="float:left; margin-left:100px;">
+        <div class="form-group row">
+            <div class="col-10">
+                <div id="divType" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input type="radio" name="options" id="text" autocomplete="off" checked>T
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="options" id="image" autocomplete="off">Image
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="options" id="line" autocomplete="off">Line
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="options" id="rect" autocomplete="off">Rect
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="txtForeColor" class="col-sm-2 col-form-label">Color</label>
+            <div class="col-sm-10">
+                <input class="form-control picker" type="text" placeholder="Fore Color" id="txtForeColor">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="txtBackgroundColor" class="col-sm-2 col-form-label">BG</label>
+            <div class="col-sm-10">
+                <input class="form-control picker" type="text" placeholder="Background Color" id="txtBackgroundColor">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="txtBorderColor" class="col-sm-2 col-form-label">Border Color</label>
+            <div class="col-sm-10">
+                <input class="form-control picker" type="text" placeholder="Border Color" id="txtBorderColor">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="txtBorderWidth" class="col-sm-2 col-form-label">Border Width</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" placeholder="Border Width" id="txtBorderWidth">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Left" id="txtLeft">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Top" id="txtTop">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Width" id="txtWidth">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Height" id="txtHeight">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Scale" id="txtScale">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Angle" id="txtAngle">
+            </div>
+        </div>
+    </div>
+    <div style="float:left; margin-left:100px;">
+        <div id="divText" class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Default Text" id="txtText">
+            </div>
+        </div>
+        <div id="divImage" class="form-group row" style="display:none;">
+            <div class="col-10">
+                <input class="form-control" type="file" id="file">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Font Family" id="txtFont">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Font Size" id="txtFontSize">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <div id="divAlign" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary">
+                        <input type="radio" name="optionsAlign" id="left" autocomplete="off">Left
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="optionsAlign" id="center" autocomplete="off">Center
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="optionsAlign" id="right" autocomplete="off">Right
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <div id="divTextDec" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary">
+                        <input type="radio" name="optionsTextDec" id="underline" autocomplete="off">Underline
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="optionsTextDec" id="overline" autocomplete="off">Overline
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="optionsTextDec" id="line-through" autocomplete="off">Line Through
+                    </label>
+                    <label class="btn btn-primary active">
+                        <input checked type="radio" name="optionsTextDec" id="no-dec" autocomplete="off">None
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <div id="divStyle" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary">
+                        <input type="checkbox" name="optionsStyle" id="bold" autocomplete="off">Bold
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="checkbox" name="optionsStyle" id="italic" autocomplete="off">Italic
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <div id="divEdit" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input checked type="checkbox" name="optionsEdit" id="editable" autocomplete="off">Editable
+                    </label>
+                    <label class="btn btn-primary active">
+                        <input checked type="checkbox" name="optionsEdit" id="draggable" autocomplete="off">Draggable
+                    </label>
+                    <label class="btn btn-primary active">
+                        <input checked type="checkbox" name="optionsEdit" id="rotatable" autocomplete="off">Rotatable
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Radius" id="txtRadius">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-10">
+                <button id="btnAdd" type="button" class="btn btn-success">Add</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="src/configurator.js"></script>
+</body>
+</html>

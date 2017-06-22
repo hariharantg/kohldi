@@ -1,0 +1,246 @@
+﻿<html>
+<head>
+    <title>Test - Fabric js</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="src/fabric.min.js">
+
+    </script>
+
+
+
+    <!--google translate-->
+
+    <script type="text/javascript" src="https://www.google.com/jsapi">
+    </script>
+    <script type="text/javascript">
+
+        // Load the Google Transliterate API
+        google.load("elements", "1", {
+            packages: "transliteration"
+        });
+
+        var transliterationControl;
+        function onLoad() {
+            var options = {
+                sourceLanguage: 'en',
+                destinationLanguage: ['ar', 'hi', 'kn', 'ml', 'ta', 'te'],
+                transliterationEnabled: true,
+                shortcutKey: 'ctrl+g'
+            };
+            // Create an instance on TransliterationControl with the required
+            // options.
+            transliterationControl =
+          new google.elements.transliteration.TransliterationControl(options);
+
+            // Enable transliteration in the textfields with the given ids.
+            //var ids = ["transl1", "transl2"];
+            var ids = ["text1", "text2", "text3", "text4"];
+            transliterationControl.makeTransliteratable(ids);
+
+            // Add the STATE_CHANGED event handler to correcly maintain the state
+            // of the checkbox.
+            transliterationControl.addEventListener(
+            google.elements.transliteration.TransliterationControl.EventType.STATE_CHANGED,
+            transliterateStateChangeHandler);
+
+            // Add the SERVER_UNREACHABLE event handler to display an error message
+            // if unable to reach the server.
+            transliterationControl.addEventListener(
+            google.elements.transliteration.TransliterationControl.EventType.SERVER_UNREACHABLE,
+            serverUnreachableHandler);
+
+            // Add the SERVER_REACHABLE event handler to remove the error message
+            // once the server becomes reachable.
+            transliterationControl.addEventListener(
+            google.elements.transliteration.TransliterationControl.EventType.SERVER_REACHABLE,
+            serverReachableHandler);
+
+            // Set the checkbox to the correct state.
+            document.getElementById('checkboxId').checked =
+          transliterationControl.isTransliterationEnabled();
+
+            // Populate the language dropdown
+            var destinationLanguage =
+          transliterationControl.getLanguagePair().destinationLanguage;
+            var languageSelect = document.getElementById('languageDropDown');
+            var supportedDestinationLanguages =
+          google.elements.transliteration.getDestinationLanguages(
+            google.elements.transliteration.LanguageCode.ENGLISH);
+            for (var lang in supportedDestinationLanguages) {
+                var opt = document.createElement('option');
+                opt.text = lang;
+                opt.value = supportedDestinationLanguages[lang];
+                if (destinationLanguage == opt.value) {
+                    opt.selected = true;
+                }
+                try {
+                    languageSelect.add(opt, null);
+                } catch (ex) {
+                    languageSelect.add(opt);
+                }
+            }
+        }
+
+        // Handler for STATE_CHANGED event which makes sure checkbox status
+        // reflects the transliteration enabled or disabled status.
+        function transliterateStateChangeHandler(e) {
+            document.getElementById('checkboxId').checked = e.transliterationEnabled;
+        }
+
+        // Handler for checkbox's click event.  Calls toggleTransliteration to toggle
+        // the transliteration state.
+        function checkboxClickHandler() {
+            transliterationControl.toggleTransliteration();
+        }
+
+        // Handler for dropdown option change event.  Calls setLanguagePair to
+        // set the new language.
+        function languageChangeHandler() {
+            var dropdown = document.getElementById('languageDropDown');
+            transliterationControl.setLanguagePair(
+            google.elements.transliteration.LanguageCode.ENGLISH,
+            dropdown.options[dropdown.selectedIndex].value);
+        }
+
+        // SERVER_UNREACHABLE event handler which displays the error message.
+        function serverUnreachableHandler(e) {
+            document.getElementById("errorDiv").innerHTML =
+            "Transliteration Server unreachable";
+        }
+
+        // SERVER_UNREACHABLE event handler which clears the error message.
+        function serverReachableHandler(e) {
+            document.getElementById("errorDiv").innerHTML = "";
+        }
+        google.setOnLoadCallback(onLoad);
+
+    </script>
+
+    <!--google translate till here-->
+
+</head>
+<body>
+    <div>
+        <center>
+            <div style="float: left">
+                <canvas id="c" width="350" height="500" style="border: 1px solid #000000;"></canvas>
+            </div>
+            <div style="float: left; padding: 20px;">
+                <center>Type in Indian languages (Press Ctrl+g to toggle between English and Hindi)</center>
+                <div id='translControl'>
+                  <input type="checkbox" id="checkboxId" onclick="javascript:checkboxClickHandler()"></input>
+                  Type in <select id="languageDropDown" onchange="javascript:languageChangeHandler()"></select>
+                </div>
+                <div style="padding: 20px">
+                    <input type="text" id="text1" onkeyup="setTimeout(ontextchange, 2000, 'text1');" class="text" value="Wedding Reception" /></div>
+                <div style="padding: 20px">
+                    <input type="text" id="text2" onkeyup="setTimeout(ontextchange, 2000, 'text2');" class="text" value="Groom Name" /></div>
+                <div style="padding: 20px"> 
+                    <input type="text" id="text3" onkeyup="setTimeout(ontextchange, 2000, 'text3');" class="text" value="Bride Name" /></div>
+                <div style="padding: 20px">
+                    <input type="text" id="text4" onkeyup="setTimeout(ontextchange, 2000, 'text4');" class="text" value="Date" /></div>
+                <div style="padding: 20px">
+                    <input id="btnImg" type="button" value="View Image" />
+                </div>
+            </div>
+            <script type="text/javascript">
+                var imag = new Image();
+                imag.crossOrigin = "anonymous";
+                var canvas = new fabric.Canvas('c');
+
+                $(document).ready(function () {
+
+                });
+
+                function ontextchange(e) {
+                    var selectedIdx;
+                    if (e != null)
+                        selectedIdx = e.toString().substr(e.toString().length - 1);
+                    else
+                        selectedIdx = event.target.id.toString().substr(event.target.id.toString().length - 1);
+                    var cnt = 1;
+                    canvas.getObjects().forEach(function (o) {
+                        //console.log('coming inside for');
+                        //if (o.type === 'text' && $("#hdnText").val().length > 0 && o.text.indexOf($("#hdnText").val()) > -1) {
+                        //console.log("o.text:" + o.text + "  o.type:" + o.type + "  cnt:" + cnt + "  selectedIdx:" + selectedIdx);
+                        if (o.type === 'i-text') {
+                            if (selectedIdx == cnt) {
+                                //console.log('coming inside if');
+                                o.text = $("#" + e).val();
+                                canvas.setActiveObject(o);
+                                //o.calcOffset();
+                                //o.centerH();
+                                canvas.centerObjectH(o);
+                                //$("#hdnText").val($("#" + event.target.id).val());
+                                //o.selectable = true;
+                                canvas.renderAll();
+                            }
+                            cnt++;
+                        }
+                    });
+                }
+
+                var i = 1;
+                $('.text').each(function () {
+                    var topY = (i * 100);
+
+                    switch (i) {
+                        case 1:
+                            topY = 150;
+                            break;
+                        case 2:
+                            topY = 300;
+                            break;
+                        case 3:
+                            topY = 350;
+                            break;
+                        case 4:
+                            topY = 420;
+                            break;
+                    }
+
+                    //var topY = (i * 100);
+
+                    var text = new fabric.IText($(this).val(), {
+                        fontSize: 30,
+                        left: 0,
+                        top: topY,
+                        fontFamily: 'Arial',
+                        fill: 'Blue',
+                        fontWeight: 'bold',
+                        lockUniScaling: true
+                    });
+
+                    i += 1;
+
+                    //$("#hdnText").val($("#" + event.target.id).val());
+
+                    canvas.add(text);
+                    canvas.centerObjectH(text);
+                });
+
+
+                canvas.on('text:changed', function (e) {
+                    canvas.centerObjectH(e.target);
+                    console.log('coming inside canvas text chnage');
+                    console.log('text:changed', e.target, e);
+                });
+
+
+
+                fabric.Image.fromURL('images/nonwoven_border_bg.JPG', function (oImg) {
+                    oImg.setLeft(0);
+                    oImg.setTop(0);
+                    oImg.setWidth(canvas.width);
+                    oImg.setHeight(canvas.height);
+                    oImg.set('selectable', false);
+                    canvas.add(oImg);
+                    canvas.sendToBack(oImg);
+                    canvas.renderAll();
+                });
+            </script>
+            <input id="hdnText" type="hidden" />
+        </center>
+    </div>
+</body>
+</html>
